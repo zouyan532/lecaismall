@@ -1,0 +1,39 @@
+.swiper-tab {
+  bottom:0;
+  display: flex;
+  position: fixed;
+  flex-direction: row;
+  width: 100%;
+}
+
+.swiper-tab-list {
+  display: flex;
+  width: 50%;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.text_tab{
+  font-size: 30rpx;
+  color: #666666;
+}
+
+.on {
+  color: #f83342;
+  /* border-bottom: 5rpx solid#da7c0c; */
+}
+
+.swiper-box {
+  display: block;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
+.swiper-box view {
+  text-align: center;
+}
+.icon{
+  width: 30rpx;
+  height: 30rpx
+}

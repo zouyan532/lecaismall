@@ -1,0 +1,52 @@
+.container {
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  align-items: center;
+  display: flex;
+  padding: 30rpx;
+  box-sizing: border-box;
+  position: fixed;
+  background-color: #f9f9f9;
+  justify-content: flex-start
+}
+
+.grayborder {
+  display: flex;
+  flex-direction: row;
+  padding: 40rpx;
+  border-color: #eeeeee;
+  border-width: 1px;
+  width: 90%;
+  height: 30rpx;
+  border-style: solid;
+  align-items: center
+}
+.icon {
+  height: 50rpx;
+  width: 50rpx;
+}
+
+.input {
+  flex: 1;
+  margin-left: 20rpx;
+}
+.btn {
+  margin-top: 40rpx;
+  width: 100%;
+}
+.btn_vcode{
+  width: 150rpx;
+  height: 30px;
+  font-size: 12px;
+  align-self: center
+}
+.view_agree{
+  flex-direction: row;
+  justify-content: flex-start;
+  margin-top: 10rpx;
+  margin-left: 30rpx; 
+}
+.text_agree{
+  font-size: 12px;
+}

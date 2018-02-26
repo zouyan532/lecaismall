@@ -1,0 +1,72 @@
+/**index.wxss**/
+
+.container_red {
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  align-items: center;
+  display: flex;
+  padding: 30rpx;
+  box-sizing: border-box;
+  position: fixed;
+}
+
+.signIcon {
+  height: 60px;
+  width: 60px;
+  margin-top: 120rpx;
+}
+
+.bgimg {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+}
+
+.input_border {
+  margin-top: 100rpx;
+  display: flex;
+  flex-direction: row;
+  padding: 40rpx;
+  border-color: #fff;
+  border-width: 1px;
+  width: 90%;
+  height: 40rpx;
+  border-style: solid;
+}
+
+.icon {
+  height: 50rpx;
+  width: 50rpx;
+}
+
+.input {
+  flex: 1;
+  margin-left: 20rpx;
+}
+
+.loginbtn {
+  margin-top: 40rpx;
+  width: 95%;
+}
+
+.viewtexts {
+  margin-top: 30rpx;
+  width: 100%;
+  flex-direction: 'row';
+  justify-content: space-between;
+}
+
+.textleft {
+  color: white;
+  font-size: 30rpx;
+  position: fixed;
+  left: 20px;
+}
+
+.textright {
+  color: white;
+  font-size: 30rpx;
+  position: fixed;
+  right: 20px;
+}

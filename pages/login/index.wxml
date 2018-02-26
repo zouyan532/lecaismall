@@ -1,0 +1,20 @@
+<!--index.wxml-->
+<loading hidden="{{!loading}}">加载中...</loading>
+<image class='bgimg' src='../../images/sign_bg.png'></image>
+<view class="container_red">
+  <image class="signIcon" src='../../images/sign_logo.png'></image>
+  <view class="input_border">
+    <image class="icon" src="../../images/sign_phone.png"></image>
+    <input class='input' placeholder='账号' bindinput='accountInput'></input>
+  </view>
+  <view class="input_border" style='margin-top:20rpx'>
+    <image class="icon" src="../../images/sign_pw.png"></image>
+    <input class='input' placeholder='密码' bindinput='passwordInput' password='true'></input>
+  </view>
+  <button type='default' class='loginbtn' style='color: red;' bindtap='login'>登录</button>
+  <view class='viewtexts'>
+    <text class='textleft' bindtap='toRegister'>快速注册</text>
+    <text class='textright' bindtap='toForgetPassword'>忘记密码</text>
+  </view>
+
+</view>

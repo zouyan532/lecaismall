@@ -1,0 +1,26 @@
+<loading hidden="{{!loading}}">加载中...</loading>
+<view class='container'>
+  <view class='grayborder'>
+    <image class="icon" src="../../images/reg_phone.png"></image>
+    <input class='input' placeholder='手机号码' bindinput='accountInput'></input>
+  </view>
+  <view class='grayborder' style='margin-top:20rpx'>
+    <image class="icon" src="../../images/reg_phone_ver_code.png"></image>
+    <input class='input' placeholder='验证码' bindinput='verInput'></input>
+    <button class="btn_vcode" style='color: white;background-color: red' bindtap='clickGetVCode'>验证码</button>
+  </view>
+  <view class='grayborder' style='margin-top:20rpx'>
+    <image class="icon" src="../../images/reg_pw.png"></image>
+    <input class='input' placeholder='请输入密码' bindinput='passwordInput' password='true'></input>
+  </view>
+  <view class='grayborder' style='margin-top:20rpx'>
+    <image class="icon" src="../../images/reg_phone.png"></image>
+    <input class='input' placeholder='请再次输入密码' bindinput='repasswordInput' password='true'></input>
+  </view>
+  <button type='default' class='btn' style='color: white;background-color: red' bindtap='register'>确认</button>
+  <view class='view_agree' wx:if='{{isRegister}}'>
+      <checkbox checked='{{isCheck}}' bindtap='checkboxChange'></checkbox>
+      <text class='text_agree'>同意并已阅读</text>
+      <text class='text_agree' style='color:red' >《菜小生APP使用条框协议》</text>
+  </view>
+</view>

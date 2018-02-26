@@ -1,0 +1,25 @@
+
+  <view class="swiper-tab">
+    <view class='swiper-tab-list' data-current="0" bindtap="swichNav">
+      <image class='icon' data-current="0" hidden='{{currentTab!=0?true:false}}' src='../../images/tab_food_shopping_sele.png'></image>
+      <image class='icon' data-current="0" hidden='{{currentTab==0?true:false}}' src='../../images/tab_food_shopping.png'></image>
+      <text class="text_tab {{currentTab==0 ? 'on' : ''}}" data-current="0">武餐店</text>
+    </view>
+    
+      <view class='swiper-tab-list' data-current="1" bindtap="swichNav" >
+      <image class='icon' hidden='{{currentTab!=1?true:false}}' data-current="1" src='../../images/tab_food_shopping_sele.png'></image>
+      <image class='icon' hidden='{{currentTab==1?true:false}}' data-current="1" src='../../images/tab_food_shopping.png'></image>
+      <text class="text_tab {{currentTab==1 ? 'on' : ''}}" data-current="1">菜篮子</text>
+    </view>
+  </view>
+
+
+<swiper current="{{currentTab}}" class="swiper-box" style=" height:{{winHeight - 31}}px " bindchange="bindChange ">
+  <swiper-item>
+    <view>11111</view>
+  </swiper-item>
+  <swiper-item>
+    <view>22222</view>
+  </swiper-item>
+
+</swiper>
