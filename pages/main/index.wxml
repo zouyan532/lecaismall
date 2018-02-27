@@ -1,5 +1,9 @@
 <import src='../../common/swiper-card.wxml' />
 
+<modal hidden="{{modalhidden}}" title="购物提示" confirm-text="确定" cancel-text="取消" bindcancel="cancelDelete" bindconfirm="confirmDelete">
+    确认从购物车删除吗？
+</modal>
+
 <loading hidden="{{!loading}}">加载中...</loading>
 <view class='container'>
   <swiper current="{{currentTab}}" class="swiper-box" style="height:{{winHeight - 31}}px" bindchange="bindChange ">
@@ -73,7 +77,7 @@
             <!-- //数量加减 -->
             <view class="carts-num">
               <text class="minus" data-id="{{item.id}}" data-type="-" bindtap="bindCartNum">-</text>
-              <input type="number" data-id="{{item.id}}" bindinput="bindIptCartNum" value="{{item.amount}}" />
+              <input type="number" data-id="{{item.id}}" bindconfirm="bindIptCartNum" value="{{item.amount}}" />
               <text class="plus normal" data-id="{{item.id}}" data-type="+" bindtap="bindCartNum">+</text>
             </view>
             <image class='item_sign_cart_icon' wx:if="{{item.sign==1}}" src='../../images/sell_out.png'></image>

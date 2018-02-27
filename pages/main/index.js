@@ -22,7 +22,9 @@ Page({
     listCart: null,
     listCartAll: null,
     total: 0.00,
-    isAllChecked:false,
+    isAllChecked: false,
+    modalhidden: true,
+    currentNeedDeleteGoodId: null
   },
 
   onLoad: function () {
@@ -143,7 +145,6 @@ Page({
                 })
               }
             }
-
 
             const array = new Array()
             for (var i = 0; i < d.snacks.length; i++) {
@@ -266,6 +267,7 @@ Page({
               listCart: array,
               listCartAll: d.snacks
             })
+            this.upDateTotal();
             break
         }
       })
@@ -305,26 +307,7 @@ Page({
       if (bean.SnackCities[0].Stock != 0) {
         if (bean.SnackCities[0].Enable) {
           if (count < bean.SnackCities[0].TotalStock) {
-            baseRequest.findWhithToken("v1/cart/snackCarts", {
-              SnackCarts: [
-                {
-                  SnackId: bean.SnackId,
-                  Amount: count + 1
-                }
-              ]
-            }, "POST")
-              .then(d => {
-                switch (d.error_code) {
-                  case 0:
-                    this.showToast("已添加到购物车", true)
-                    this.getHotSnack(false)
-                    break
-                }
-              })
-              .catch(e => {
-                console.log(e)
-                this.showToast("网络错误", false)
-              })
+            this.modifyCarts(count + 1, bean.SnackId, true)
           }
         } else {
           this.showToast("该商品已下架", false)
@@ -356,13 +339,13 @@ Page({
         count++
       }
     })
-    if(count==this.data.listCart.length){
+    if (count == this.data.listCart.length) {
       this.setData({
-        isAllChecked:true,
+        isAllChecked: true,
       })
-    }else{
+    } else {
       this.setData({
-        isAllChecked:false
+        isAllChecked: false
       })
     }
     this.upDateTotal()
@@ -371,26 +354,113 @@ Page({
     var total = 0;
     this.data.listCart.forEach(e => {
       if (e.isCheck) {
-        total = total + parseFloat(e.price)
+        total = total + parseFloat(e.price) * e.amount
       }
       this.setData({
         total: total.toFixed(2)
       })
     })
   },
-  bindAllCheckbox:function(){
+  bindAllCheckbox: function () {
+    this.setData({
+      isAllChecked: !this.data.isAllChecked
+    })
+    var list = this.data.listCart
+    console.log(list)
+    for (var i = 0; i < list.length; i++) {
+      list[i].isCheck = this.data.isAllChecked
+    }
+    this.setData({
+      listCart: list
+    })
+    this.upDateTotal()
+  },
+  bindCartNum: function (e) {
+    let type = e.currentTarget.dataset.type
+    let id = e.currentTarget.dataset.id
+    var amount = type === "-" ? this.data.listCart[id].amount - 1 : this.data.listCart[id].amount + 1
+    console.log(this.data.listCart[id].sign == 0)
+    this.changeGoodAmount(amount, id)
+  },
+  changeGoodAmount(amount,id) {
+    let goodId = this.data.listCartAll[id].SnackId
+    if (amount == 0) {
       this.setData({
-        isAllChecked: !this.data.isAllChecked
+        modalhidden: false,
+        currentNeedDeleteGoodId: goodId
       })
-      var list = this.data.listCart
-      console.log(list)
-      for(var i=0;i<list.length;i++){
-        list[i].isCheck = this.data.isAllChecked
+      return
+    }
+    if (this.data.listCart[id].sign == 0) {
+      let count = this.data.listCartAll[id].SnackCities[0].TotalStock
+      if (amount <= count) {
+        this.modifyCarts(amount, goodId, false)
       }
-      this.setData({
-        listCart:list
+    } else if (this.data.listCart[id].sign == 1) {
+      this.showToast("商品已售罄", false)
+    } else if (this.data.listCart[id].sign == 2) {
+      this.showToast("商品已下架", false)
+    }
+  },
+  modifyCarts: function (amount, goodId, isAddCart) {
+    baseRequest.findWhithToken("v1/cart/snackCarts", {
+      SnackCarts: [
+        {
+          SnackId: goodId,
+          Amount: amount
+        }
+      ]
+    }, "POST")
+      .then(d => {
+        switch (d.error_code) {
+          case 0:
+            isAddCart ? this.showToast("已添加到购物车", true) : null
+            this.getHotSnack(false)
+            this.initLoadCart()
+            break
+        }
+        return null
       })
-      this.upDateTotal()
+      .catch(e => {
+        console.log(e)
+        this.showToast("网络错误", false)
+      })
+  },
+  deleteCarts: function () {
+    baseRequest.findWhithToken("v1/cart/snackCarts", {
+      SnackCarts: [
+        {
+          SnackId: this.data.currentNeedDeleteGoodId
+        }]
+    }, "PUT")
+      .then(d => {
+        switch (d.error_code) {
+          case 0:
+            this.getHotSnack(false)
+            this.initLoadCart()
+            break
+        }
+        return null
+      })
+      .catch(e => {
+        console.log(e)
+        this.showToast("网络错误", false)
+      })
+  },
+  cancelDelete(e) {
+    this.setData({
+      modalhidden: true
+    })
+  },
+  confirmDelete(e) {
+    this.setData({
+      modalhidden: true
+    })
+    this.deleteCarts()
+  },
+  bindIptCartNum(e) {
+    
+    let id = e.currentTarget.dataset.id
+    this.changeGoodAmount(e.detail.value, id)
   }
-
 })
