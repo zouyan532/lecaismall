@@ -80,11 +80,14 @@
             <image class='item_sign_cart_icon' wx:if="{{item.sign==2}}" src='../../images/off_the_shelf.png'></image>
           </view>
         </block>
+        <view style="height:150rpx"/>
       </view>
+
+      
       <view class="view_cart_bottom">
         <view class="carts-radio">
-          <icon wx:if="{{item.isCheck}}" type="success_circle" size="20" bindtap="bindCheckbox" data-id="{{item.id}}" />
-          <icon wx:else type="circle" size="20" bindtap="bindCheckbox" data-id="{{item.id}}" />
+          <icon wx:if="{{isAllChecked}}" type="success_circle" size="20" bindtap="bindAllCheckbox" data-id="{{item.id}}" />
+          <icon wx:else type="circle" size="20" bindtap="bindAllCheckbox" data-id="{{item.id}}" />
         </view>
         <text class='text_all_select'>全选</text>
         <view class="view_cart_bottom_buy">

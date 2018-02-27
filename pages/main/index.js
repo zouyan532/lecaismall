@@ -21,7 +21,8 @@ Page({
     listHotAll: null,
     listCart: null,
     listCartAll: null,
-    total:0.00
+    total: 0.00,
+    isAllChecked:false,
   },
 
   onLoad: function () {
@@ -39,13 +40,10 @@ Page({
     });
     const adCode = wx.getStorageSync("adCode")
     if (adCode !== null && adCode.length > 0) {
-      console.log("已有地址:" + adCode)
       this.initLoadSnack();
     } else {
-      console.log("获取地址")
       wx.chooseAddress({
         success: function (res) {
-          console.log(JSON.stringify(res))
           wx.setStorageSync("adCode", "330281");
           this.initLoadSnack();
         },
@@ -66,7 +64,6 @@ Page({
   getRecomSnack: function () {
     baseRequest.findWhithToken("v1/snack/recommendSnack", {}, "GET")
       .then(d => {
-        console.log(d)
         switch (d.error_code) {
           case 0:
             const array = new Array()
@@ -104,10 +101,8 @@ Page({
   getMainAd: function () {
     baseRequest.find("v1/system/snackAd", {}, "GET")
       .then(d => {
-        console.log(d)
         switch (d.error_code) {
           case 0:
-            console.log("广告获取")
             this.setData({
               ad: d.ad
             })
@@ -129,10 +124,8 @@ Page({
       offset: this.data.offset,
     }, "GET")
       .then(d => {
-        console.log(d)
         switch (d.error_code) {
           case 0:
-            console.log("热卖菜品")
             if (d.snacks.length > 0) {
               if (d.snacks.length == this.data.limit) {
                 this.setData({
@@ -154,7 +147,6 @@ Page({
 
             const array = new Array()
             for (var i = 0; i < d.snacks.length; i++) {
-              // console.log(d.snacks[i])
               var bean = d.snacks[i]
               var image;
               bean.SnackImages.forEach(function (e) {
@@ -178,8 +170,6 @@ Page({
               }
               array[i] = temp
             }
-            console.log("请求到的" + array)
-            console.log(this.data.listHot)
             this.setData({
               listHot: isMore ? this.data.listHot.concat(array) : array,
               listHotAll: isMore ? this.data.listHotAll.concat(d.snacks) : d.snacks
@@ -285,7 +275,6 @@ Page({
       })
   },
   clickRec: function (e) {
-    console.log(e);
   },
 
   showLoading() {
@@ -300,18 +289,14 @@ Page({
     });
   },
   reachTop: function () {
-    console.log("到达顶部")
     wx.showNavigationBarLoading() //在标题栏中显示加载
     this.initLoadSnack();
   },
   reachBottm: function () {
-    console.log("到达底部")
     this.getHotSnack(true)
   },
   addtocart: function (e) {
-    console.log(e)
     var bean = this.data.listHotAll[e.currentTarget.dataset.id]
-    console.log(bean)
     let count = 0;
     if (bean.SnackCarts.length > 0) {
       count = bean.SnackCarts[0].Amount
@@ -320,14 +305,6 @@ Page({
       if (bean.SnackCities[0].Stock != 0) {
         if (bean.SnackCities[0].Enable) {
           if (count < bean.SnackCities[0].TotalStock) {
-            console.log({
-              SnackCarts: [
-                {
-                  SnackId: bean.SnackId,
-                  Amount: count + 1
-                }
-              ]
-            })
             baseRequest.findWhithToken("v1/cart/snackCarts", {
               SnackCarts: [
                 {
@@ -337,7 +314,6 @@ Page({
               ]
             }, "POST")
               .then(d => {
-                console.log(d)
                 switch (d.error_code) {
                   case 0:
                     this.showToast("已添加到购物车", true)
@@ -369,8 +345,52 @@ Page({
     })
   },
   bindCheckbox: function (e) {
-    // this.setData({
-    //   ""
-    // })
+    let id = parseInt(e.currentTarget.dataset.id)
+    var check = "listCart[" + id + "].isCheck"
+    this.setData({
+      [check]: !this.data.listCart[id].isCheck
+    })
+    var count = 0
+    this.data.listCart.forEach(e => {
+      if (e.isCheck) {
+        count++
+      }
+    })
+    if(count==this.data.listCart.length){
+      this.setData({
+        isAllChecked:true,
+      })
+    }else{
+      this.setData({
+        isAllChecked:false
+      })
+    }
+    this.upDateTotal()
+  },
+  upDateTotal: function () {
+    var total = 0;
+    this.data.listCart.forEach(e => {
+      if (e.isCheck) {
+        total = total + parseFloat(e.price)
+      }
+      this.setData({
+        total: total.toFixed(2)
+      })
+    })
+  },
+  bindAllCheckbox:function(){
+      this.setData({
+        isAllChecked: !this.data.isAllChecked
+      })
+      var list = this.data.listCart
+      console.log(list)
+      for(var i=0;i<list.length;i++){
+        list[i].isCheck = this.data.isAllChecked
+      }
+      this.setData({
+        listCart:list
+      })
+      this.upDateTotal()
   }
+
 })
