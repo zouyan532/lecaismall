@@ -3,8 +3,9 @@
 <loading hidden="{{!loading}}">加载中...</loading>
 <view class='container'>
   <swiper current="{{currentTab}}" class="swiper-box" style="height:{{winHeight - 31}}px" bindchange="bindChange ">
+    <!-- 武餐店 -->
     <swiper-item>
-      <scroll-view scroll-y class='all_container'  bindscrolltoupper="reachTop" bindscrolltolower="reachBottm" lower-threshold="1" >
+      <scroll-view scroll-y class='all_container' bindscrolltoupper="reachTop" bindscrolltolower="reachBottm" lower-threshold="1">
         <template is='swiper' data="{{ad}}" />
 
         <view class='view_divider_container'>
@@ -54,8 +55,43 @@
         </view>
       </scroll-view>
     </swiper-item>
+    <!-- 购物车 -->
     <swiper-item>
-      <view>22222</view>
+      
+      <view class='all_container_cart'>
+        <block wx:for="{{listCart}}" wx:key="cart">
+          <view class="view_item_cart">
+            <view class="carts-radio">
+              <icon wx:if="{{item.isCheck}}" type="success_circle" size="20" bindtap="bindCheckbox" data-id="{{item.id}}" />
+              <icon wx:else type="circle" size="20" bindtap="bindCheckbox" data-id="{{item.id}}" />
+            </view>
+            <image src="{{item.image}}" class="item_cart_icon"></image>
+            <view class='ietm_view_cart_text'>
+              <text style="font-size:30rpx">{{item.name}}</text>
+              <text style='font-size:28rpx;color:#f83342'>{{item.price}}元</text>
+            </view>
+            <!-- //数量加减 -->
+            <view class="carts-num">
+              <text class="minus" data-id="{{item.id}}" data-type="-" bindtap="bindCartNum">-</text>
+              <input type="number" data-id="{{item.id}}" bindinput="bindIptCartNum" value="{{item.amount}}" />
+              <text class="plus normal" data-id="{{item.id}}" data-type="+" bindtap="bindCartNum">+</text>
+            </view>
+            <image class='item_sign_cart_icon' wx:if="{{item.sign==1}}" src='../../images/sell_out.png'></image>
+            <image class='item_sign_cart_icon' wx:if="{{item.sign==2}}" src='../../images/off_the_shelf.png'></image>
+          </view>
+        </block>
+      </view>
+      <view class="view_cart_bottom">
+        <view class="carts-radio">
+          <icon wx:if="{{item.isCheck}}" type="success_circle" size="20" bindtap="bindCheckbox" data-id="{{item.id}}" />
+          <icon wx:else type="circle" size="20" bindtap="bindCheckbox" data-id="{{item.id}}" />
+        </view>
+        <text class='text_all_select'>全选</text>
+        <view class="view_cart_bottom_buy">
+          <text class="text_total">合计{{total}}元</text>
+          <text class="btn_buy">结算</text>
+        </view>
+      </view>
     </swiper-item>
 
   </swiper>

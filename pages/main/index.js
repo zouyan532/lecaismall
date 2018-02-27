@@ -18,7 +18,10 @@ Page({
     offset: 0,
     loading: false,
     hasMore: true,
-    listHotAll:null,
+    listHotAll: null,
+    listCart: null,
+    listCartAll: null,
+    total:0.00
   },
 
   onLoad: function () {
@@ -37,14 +40,14 @@ Page({
     const adCode = wx.getStorageSync("adCode")
     if (adCode !== null && adCode.length > 0) {
       console.log("已有地址:" + adCode)
-      this.initLoad();
+      this.initLoadSnack();
     } else {
       console.log("获取地址")
       wx.chooseAddress({
         success: function (res) {
           console.log(JSON.stringify(res))
           wx.setStorageSync("adCode", "330281");
-          this.initLoad();
+          this.initLoadSnack();
         },
         fail: function (err) {
           console.log(JSON.stringify(err))
@@ -53,7 +56,7 @@ Page({
     }
   },
 
-  initLoad: function () {
+  initLoadSnack: function () {
     this.showLoading();
     this.getMainAd();
     this.getRecomSnack();
@@ -179,7 +182,7 @@ Page({
             console.log(this.data.listHot)
             this.setData({
               listHot: isMore ? this.data.listHot.concat(array) : array,
-              listHotAll: isMore ? this.data.listHotAll.concat(d.snacks):d.snacks
+              listHotAll: isMore ? this.data.listHotAll.concat(d.snacks) : d.snacks
             })
             this.hideLoading();
             wx.hideNavigationBarLoading() //完成停止加载
@@ -232,7 +235,54 @@ Page({
       that.setData({
         currentTab: e.target.dataset.current
       })
+      if (this.data.currentTab == 1) {
+        this.initLoadCart()
+      }
     }
+  },
+  initLoadCart: function () {
+    baseRequest.findWhithToken("v1/cart/snackCarts", {}, "GET")
+      .then(d => {
+        console.log(d)
+        switch (d.error_code) {
+          case 0:
+            const array = new Array()
+            for (var i = 0; i < d.snacks.length; i++) {
+              var bean = d.snacks[i]
+              var image;
+              bean.SnackImages.forEach(function (e) {
+                if (e.ImageType == 2) {
+                  image = e.ImageUrl
+                }
+              });
+              var sign = 0
+              if (bean.SnackCities[0].Stock == 0) {
+                sign = 1
+              } else if (!bean.SnackCities[0].Enable) {
+                sign = 2
+              }
+              var temp = {
+                sign: sign,
+                image: image,
+                id: i,
+                price: bean.SnackCities[0].CityPrice.toFixed(2),
+                amount: bean.SnackCarts[0].Amount,
+                isCheck: false,
+                name: bean.SnackName
+              }
+              array[i] = temp
+            }
+            this.setData({
+              listCart: array,
+              listCartAll: d.snacks
+            })
+            break
+        }
+      })
+      .catch(e => {
+        console.log(e)
+        this.showToast("网络错误", false)
+      })
   },
   clickRec: function (e) {
     console.log(e);
@@ -252,53 +302,62 @@ Page({
   reachTop: function () {
     console.log("到达顶部")
     wx.showNavigationBarLoading() //在标题栏中显示加载
-    this.initLoad();
+    this.initLoadSnack();
   },
   reachBottm: function () {
     console.log("到达底部")
     this.getHotSnack(true)
   },
-  addtocart:function(e){
+  addtocart: function (e) {
     console.log(e)
     var bean = this.data.listHotAll[e.currentTarget.dataset.id]
     console.log(bean)
     let count = 0;
-    if(bean.SnackCarts.length>0){
+    if (bean.SnackCarts.length > 0) {
       count = bean.SnackCarts[0].Amount
     }
-    if(bean.SnackCities.length>0){
-      if(bean.SnackCities[0].Stock!=0){
-        if (bean.SnackCities[0].Enable){
-          if(count<bean.SnackCities[0].TotalStock){
-            baseRequest.findWhithToken("v1/cart/snackCarts",{
-              SnackCarts:[
+    if (bean.SnackCities.length > 0) {
+      if (bean.SnackCities[0].Stock != 0) {
+        if (bean.SnackCities[0].Enable) {
+          if (count < bean.SnackCities[0].TotalStock) {
+            console.log({
+              SnackCarts: [
                 {
-                  SnackId:bean.SnackId,
-                  Amount:count+1
+                  SnackId: bean.SnackId,
+                  Amount: count + 1
                 }
               ]
-            },"POST")
+            })
+            baseRequest.findWhithToken("v1/cart/snackCarts", {
+              SnackCarts: [
+                {
+                  SnackId: bean.SnackId,
+                  Amount: count + 1
+                }
+              ]
+            }, "POST")
               .then(d => {
                 console.log(d)
                 switch (d.error_code) {
                   case 0:
-                    this.showToast("已添加到购物车",true)
+                    this.showToast("已添加到购物车", true)
+                    this.getHotSnack(false)
                     break
                 }
               })
               .catch(e => {
                 console.log(e)
-                this.showToast("网络错误",false)
+                this.showToast("网络错误", false)
               })
           }
-        }else{
+        } else {
           this.showToast("该商品已下架", false)
         }
-      }else{
+      } else {
         this.showToast("该商品已售罄", false)
       }
-    }else{
-      this.showToast("当前城市暂无销售",false)
+    } else {
+      this.showToast("当前城市暂无销售", false)
     }
   },
   showToast(msg, isSuccess) {
@@ -309,4 +368,9 @@ Page({
       mask: true
     })
   },
+  bindCheckbox: function (e) {
+    // this.setData({
+    //   ""
+    // })
+  }
 })

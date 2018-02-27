@@ -23,11 +23,12 @@ function fetchApi(type, params, method) {
 function fetchApiWithToken(type, params, method) {
   return new Promise((resolve, reject) => {
     console.log(`${API_URL}/${type}`)
+    console.log(params)
     wx.request({
       url: `${API_URL}/${type}`,
       data: Object.assign({}, params),
       header: {
-        "Content-Type": "application/x-www-form-urlencoded",
+        'content-type': 'application/json',
         "sessionId": wx.getStorageSync("sessionId"),
         "adCode": wx.getStorageSync("adCode")
       },
@@ -38,6 +39,7 @@ function fetchApiWithToken(type, params, method) {
 
   })
 }
+
 
 
 module.exports = {
