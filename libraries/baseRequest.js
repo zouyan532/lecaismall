@@ -28,7 +28,7 @@ function fetchApiWithToken(type, params, method) {
       data: Object.assign({}, params),
       header: {
         "Content-Type": "application/x-www-form-urlencoded",
-        "sessionId": wx.getStorageSync("token"),
+        "sessionId": wx.getStorageSync("sessionId"),
         "adCode": wx.getStorageSync("adCode")
       },
       success: resolve,

@@ -18,6 +18,7 @@ Page({
     offset: 0,
     loading: false,
     hasMore: true,
+    listHotAll:null,
   },
 
   onLoad: function () {
@@ -177,7 +178,8 @@ Page({
             console.log("请求到的" + array)
             console.log(this.data.listHot)
             this.setData({
-              listHot: isMore ? this.data.listHot.concat(array) : array
+              listHot: isMore ? this.data.listHot.concat(array) : array,
+              listHotAll: isMore ? this.data.listHotAll.concat(d.snacks):d.snacks
             })
             this.hideLoading();
             wx.hideNavigationBarLoading() //完成停止加载
@@ -255,5 +257,56 @@ Page({
   reachBottm: function () {
     console.log("到达底部")
     this.getHotSnack(true)
-  }
+  },
+  addtocart:function(e){
+    console.log(e)
+    var bean = this.data.listHotAll[e.currentTarget.dataset.id]
+    console.log(bean)
+    let count = 0;
+    if(bean.SnackCarts.length>0){
+      count = bean.SnackCarts[0].Amount
+    }
+    if(bean.SnackCities.length>0){
+      if(bean.SnackCities[0].Stock!=0){
+        if (bean.SnackCities[0].Enable){
+          if(count<bean.SnackCities[0].TotalStock){
+            baseRequest.findWhithToken("v1/cart/snackCarts",{
+              SnackCarts:[
+                {
+                  SnackId:bean.SnackId,
+                  Amount:count+1
+                }
+              ]
+            },"POST")
+              .then(d => {
+                console.log(d)
+                switch (d.error_code) {
+                  case 0:
+                    this.showToast("已添加到购物车",true)
+                    break
+                }
+              })
+              .catch(e => {
+                console.log(e)
+                this.showToast("网络错误",false)
+              })
+          }
+        }else{
+          this.showToast("该商品已下架", false)
+        }
+      }else{
+        this.showToast("该商品已售罄", false)
+      }
+    }else{
+      this.showToast("当前城市暂无销售",false)
+    }
+  },
+  showToast(msg, isSuccess) {
+    wx.showToast({
+      title: msg,
+      icon: isSuccess ? 'succes' : 'none',
+      duration: 1000,
+      mask: true
+    })
+  },
 })

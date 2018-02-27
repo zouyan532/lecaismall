@@ -35,7 +35,7 @@
               </view>
               <view class='hot_item_view_text' style='margin-top:10rpx'>
                 <text style='font-size:25rpx;color:red'>{{item.price}} 元</text>
-                <button type='primary' class="btn_addtocart">加入菜篮子</button>
+                <button type='primary' class="btn_addtocart" bindtap='addtocart' data-id='{{item.id}}'>加入菜篮子</button>
               </view>
             </view>
           </block>

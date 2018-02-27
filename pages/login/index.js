@@ -31,6 +31,7 @@ Page({
           case 0:
             console.log("登录成功")
             this.showToast("登陆成功", true);
+            console.log(d.sid)
             wx.setStorageSync("sessionId", d.sid);
             wx.navigateTo({
               url: '../main/index',
