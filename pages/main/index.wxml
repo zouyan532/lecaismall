@@ -1,25 +1,75 @@
+<import src='../../common/swiper-card.wxml' />
 
+<loading hidden="{{!loading}}">加载中...</loading>
+<view class='container'>
+  <swiper current="{{currentTab}}" class="swiper-box" style="height:{{winHeight - 31}}px" bindchange="bindChange ">
+    <swiper-item>
+      <scroll-view scroll-y class='all_container'  bindscrolltoupper="reachTop" bindscrolltolower="reachBottm" lower-threshold="1" >
+        <template is='swiper' data="{{ad}}" />
+
+        <view class='view_divider_container'>
+          <image class='divider_icon' src='../../images/fork.png'></image>
+          <text class='divider_text'>今日套餐</text>
+        </view>
+
+        <block wx:if="{{listRec.length!=0}}" wx:for="{{listRec}}" wx:key="rec">
+          <view class='item_rec_container' data-id="{{item.id}}" bindtap='clickRec'>
+            <image class='item_rec_img' src='{{item.image}}'></image>
+            <image class='item_rec_img_state' wx:if="{{item.sign==1}}" src='../../images/sell_out.png'></image>
+            <image class='item_rec_img_state' wx:if="{{item.sign==2}}" src='../../images/off_the_shelf.png'></image>
+          </view>
+        </block>
+        <view class='view_divider_container'>
+          <image class='divider_icon' src='../../images/pot.png'></image>
+          <text class='divider_text'>加餐区</text>
+        </view>
+
+        <view wx:if="{{listHot.length!=0}}" class='hot_container'>
+          <block wx:for="{{listHot}}" wx:key="rec">
+            <view class='hot_item_container'>
+              <view class='line'></view>
+              <image class='hot_item_img' src='{{item.image}}' mode="widthFix"></image>
+              <view class='hot_item_view_text'>
+                <text style='font-size:25rpx'>{{item.name}}</text>
+                <text style='font-size:15rpx'>已售{{item.saleAmount}}</text>
+              </view>
+              <view class='hot_item_view_text' style='margin-top:10rpx'>
+                <text style='font-size:25rpx;color:red'>{{item.price}} 元</text>
+                <button type='primary' class="btn_addtocart">加入菜篮子</button>
+              </view>
+            </view>
+          </block>
+
+          <!-- 加载更多部分 -->
+          <view class="tips">
+            <view wx:if="{{hasMore}}">
+              <image src="/images/loading.gif" mode="aspectFill" style="height:50rpx;width:50rpx" />
+              <text>加载中...</text>
+            </view>
+            <view wx:else>
+              <text>没有更多内容了</text>
+            </view>
+          </view>
+
+        </view>
+      </scroll-view>
+    </swiper-item>
+    <swiper-item>
+      <view>22222</view>
+    </swiper-item>
+
+  </swiper>
   <view class="swiper-tab">
     <view class='swiper-tab-list' data-current="0" bindtap="swichNav">
       <image class='icon' data-current="0" hidden='{{currentTab!=0?true:false}}' src='../../images/tab_food_shopping_sele.png'></image>
       <image class='icon' data-current="0" hidden='{{currentTab==0?true:false}}' src='../../images/tab_food_shopping.png'></image>
       <text class="text_tab {{currentTab==0 ? 'on' : ''}}" data-current="0">武餐店</text>
     </view>
-    
-      <view class='swiper-tab-list' data-current="1" bindtap="swichNav" >
+
+    <view class='swiper-tab-list' data-current="1" bindtap="swichNav">
       <image class='icon' hidden='{{currentTab!=1?true:false}}' data-current="1" src='../../images/tab_food_shopping_sele.png'></image>
       <image class='icon' hidden='{{currentTab==1?true:false}}' data-current="1" src='../../images/tab_food_shopping.png'></image>
       <text class="text_tab {{currentTab==1 ? 'on' : ''}}" data-current="1">菜篮子</text>
     </view>
   </view>
-
-
-<swiper current="{{currentTab}}" class="swiper-box" style=" height:{{winHeight - 31}}px " bindchange="bindChange ">
-  <swiper-item>
-    <view>11111</view>
-  </swiper-item>
-  <swiper-item>
-    <view>22222</view>
-  </swiper-item>
-
-</swiper>
+</view>

@@ -1,0 +1,19 @@
+<!-- 轮播图组件子元素 -->
+
+<template name="swiper-item">
+  <swiper-item>
+    <view class="slide-nav" bindtap='navToPicture' data-id="{{item.id ? item.id : item.link.url}}">
+      <image src="{{item.Image}}" />
+    </view>
+  </swiper-item>
+</template>
+
+
+<!-- 轮播图组件总体 -->
+<template name="swiper">
+  <swiper class="swiper" autoplay="true" interval="5000" duration="1000" indicator-dots="true">
+    <block wx:for="{{ad}}" wx:for-item="item" wx:key="index">
+      <template is="swiper-item" data="{{item}}" />
+    </block>
+  </swiper>
+</template>

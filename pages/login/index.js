@@ -32,6 +32,9 @@ Page({
             console.log("登录成功")
             this.showToast("登陆成功", true);
             wx.setStorageSync("sessionId", d.sid);
+            wx.navigateTo({
+              url: '../main/index',
+            })
             break
           case 2302:
             this.showToast("账号不存在",false);

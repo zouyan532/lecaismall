@@ -1,4 +1,4 @@
-const API_URL = 'http://api.lc-it.com';
+const API_URL = 'https://api.lc-it.com';
 
 const Promise = require('./bluebird')
 
@@ -8,7 +8,10 @@ function fetchApi(type, params, method) {
     wx.request({
       url: `${API_URL}/${type}`,
       data: Object.assign({}, params),
-      header: { "Content-Type": "application/x-www-form-urlencoded" },
+      header: {
+        "Content-Type": "application/x-www-form-urlencoded",
+        "adCode": wx.getStorageSync("adCode")
+      },
       success: resolve,
       method: method,
       fail: reject

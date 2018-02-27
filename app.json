@@ -5,10 +5,10 @@
     "pages/register/index"
   ],
   "window": {
-    "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#fff",
-    "navigationBarTitleText": "WeChat",
+    "navigationBarTitleText": "菜小生",
     "navigationBarTextStyle": "black",
-    "innerHeight": "100%"
+    "backgroundColor": "#fff",
+    "backgroundTextStyle": "durk"
   }
 }
