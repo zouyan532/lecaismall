@@ -9,7 +9,6 @@
   box-sizing: border-box;
 } 
 .swiper {
-  height: 360rpx;
   width: 100%;
   position: relative;
 }

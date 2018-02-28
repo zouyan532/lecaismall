@@ -1,1 +1,99 @@
 /* pages/detail/index.wxss */
+
+.topImages {
+  width: 100%;
+  height: 500rpx;
+}
+
+.topImages image {
+  height: 100%;
+  width: 100%;
+}
+
+.container_detial {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  background-color: white;
+}
+
+.text_name {
+  font-size: 30rpx;
+  margin-left: 20rpx;
+  margin-top: 30rpx;
+}
+
+.text_saleAmount {
+  font-size: 26rpx;
+  margin-top: 10rpx;
+  align-self: flex-end;
+  margin-right: 20rpx;
+  color: #a5a5a5;
+}
+
+.view_line {
+  height: 20rpx;
+  width: 100%;
+  background-color: #f9f9f9;
+}
+
+.bottomImage {
+  align-items: center;
+}
+
+::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  color: transparent;
+}
+
+.bottom_view {
+  width: 100%;
+  height: 80rpx;
+  position: fixed;
+  bottom: 0;
+  display: flex;
+  flex-direction: row-reverse;
+  background-color: white;
+  align-items: center;
+}
+
+.text_addcarttimes {
+  color: #f83342;
+  font-size: 22rpx;
+  margin-right: 20rpx;
+}
+
+.btn_add {
+  color: white;
+  width: 140rpx;
+  height: 80rpx;
+  background-color: #f83342;
+  font-size: 25rpx;
+  text-align: center;
+  line-height: 40px; /*垂直居中*/
+}
+
+.img_cart {
+  position: fixed;
+  bottom: 40rpx;
+  width: 80rpx;
+  height: 80rpx;
+  margin-left: 30rpx;
+}
+
+.addCartTimesDot {
+  width: 20rpx;
+  height: 20rpx;
+  border: 1rpx solid #f00;
+  border-radius: 100rpx;
+  background-color: #f83342;
+  position: fixed;
+  bottom: 92rpx;
+  margin-left: 88rpx;
+  font-size: 20rpx;
+  text-align: center;
+  color: white;
+  line-height: 20rpx
+}

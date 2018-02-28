@@ -1,2 +1,25 @@
-<!--pages/detail/index.wxml-->
-<text>pages/detail/index.wxml</text>
+<loading hidden="{{!loading}}">加载中...</loading>
+<view class='container_detial'>
+  <swiper class="topImages" autoplay="true" interval="5000" duration="1000" indicator-dots="true">
+    <block wx:for="{{topImages}}" wx:key="topImages">
+      <swiper-item>
+        <image src="{{item}}" mode='scaleToFill' />
+      </swiper-item>
+    </block>
+  </swiper>
+  <text class='text_name'>{{name}}</text>
+  <text class='text_name' style="color:#F83342">{{price}} 元</text>
+  <text class="text_saleAmount">已售{{saleAmount}}</text>
+  <view class="view_line"></view>
+  <block wx:for="{{bottomImages}}" wx:key="bottomImages">
+    <image mode="scaleToFill" class='bottomImage' bindload="imageLoad" src='{{item}}' data-index="{{ index }}" style="width:{{ images[index].width }}rpx; height:{{ images[index].height }}rpx;"></image>
+  </block>
+  <view style="height:200rpx" />
+</view>
+<view class="bottom_view">
+  <text class="btn_add" bindtap='addtoCart' style="background-color:{{sign==0?'#f83342':'#77f83342'}}">加入菜篮子</text>
+  <text class='text_addcarttimes'>该商品已加入菜篮子{{addCartTimes}}次</text>
+</view>
+<image hidden='{{addCartTimes>0}}' class="img_cart" src='../../images/shopping_cart_no_cart.png'></image>
+<image hidden='{{addCartTimes==0}}' class='img_cart' src='../../images/shopping_cart_add_cart.png'></image>
+<text hidden='{{addCartTimes==0}}' class="addCartTimesDot">{{addCartTimes}}</text>
