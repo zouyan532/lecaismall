@@ -24,7 +24,16 @@ Page({
     total: 0.00,
     isAllChecked: false,
     modalhidden: true,
-    currentNeedDeleteGoodId: null
+    currentNeedDeleteGoodId: null,
+    userhead: "../../images/my_head_pic.png",
+    username: "登录/注册",
+    order_tyeps:[
+      {
+        id:1,
+        text:"待付款",
+        icon:"../../images/order_pending_payment.png"
+      }
+    ]
   },
 
   onLoad: function () {
@@ -47,13 +56,16 @@ Page({
       wx.chooseAddress({
         success: function (res) {
           wx.setStorageSync("adCode", "330281");
-          this.initLoadSnack();
         },
         fail: function (err) {
           console.log(JSON.stringify(err))
         }
       })
     }
+  },
+  onShow: function () {
+    // Do something when page show.
+    this.initLoadSback()
   },
 
   initLoadSnack: function () {
@@ -211,12 +223,29 @@ Page({
         scrollLeft: 0
       })
     }
+    if (this.data.currentTab == 1) {
+      this.initLoadCart()
+    } else if (this.data.currentTab == 2) {
+      this.initMe()
+    }
+
+  },
+  initMe: function () {
+    baseRequest.findWhithToken("v1/user/myinfo", {}, "GET")
+      .then(d => {
+        this.setData({
+          username: d.info.Username,
+          userhead:d.info.Head_image
+        })
+      })
+      .catch(e => {
+        this.showToast("网络错误", false)
+      })
   },
 
   /**
   * 点击tab切换
   */
-
   swichNav: function (e) {
     var that = this;
     console.log(e.target)
@@ -228,6 +257,8 @@ Page({
       })
       if (this.data.currentTab == 1) {
         this.initLoadCart()
+      } else if (this.data.currentTab == 2) {
+        this.initMe()
       }
     }
   },
@@ -329,6 +360,15 @@ Page({
   },
   bindCheckbox: function (e) {
     let id = parseInt(e.currentTarget.dataset.id)
+    if (this.data.listCart[id].sign == 1) {
+      this.showToast("该商品已售罄")
+      return
+    }
+    if (this.data.listCart[id].sign == 2) {
+      this.showToast("该商品已下架")
+      return
+    }
+
     var check = "listCart[" + id + "].isCheck"
     this.setData({
       [check]: !this.data.listCart[id].isCheck
@@ -368,7 +408,9 @@ Page({
     var list = this.data.listCart
     console.log(list)
     for (var i = 0; i < list.length; i++) {
-      list[i].isCheck = this.data.isAllChecked
+      if (this.data.listCart[i].sign == 0) {
+        list[i].isCheck = this.data.isAllChecked
+      }
     }
     this.setData({
       listCart: list
@@ -382,7 +424,7 @@ Page({
     console.log(this.data.listCart[id].sign == 0)
     this.changeGoodAmount(amount, id)
   },
-  changeGoodAmount(amount,id) {
+  changeGoodAmount(amount, id) {
     let goodId = this.data.listCartAll[id].SnackId
     if (amount == 0) {
       this.setData({
@@ -459,7 +501,6 @@ Page({
     this.deleteCarts()
   },
   bindIptCartNum(e) {
-    
     let id = e.currentTarget.dataset.id
     this.changeGoodAmount(e.detail.value, id)
   }

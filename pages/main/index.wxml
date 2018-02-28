@@ -1,12 +1,12 @@
 <import src='../../common/swiper-card.wxml' />
 
 <modal hidden="{{modalhidden}}" title="购物提示" confirm-text="确定" cancel-text="取消" bindcancel="cancelDelete" bindconfirm="confirmDelete">
-    确认从购物车删除吗？
+  确认从购物车删除吗？
 </modal>
 
 <loading hidden="{{!loading}}">加载中...</loading>
 <view class='container'>
-  <swiper current="{{currentTab}}" class="swiper-box" style="height:{{winHeight - 31}}px" bindchange="bindChange ">
+  <swiper current="{{currentTab}}" class="swiper-box" style="height:{{winHeight - 31}}px" bindchange="bindChange">
     <!-- 武餐店 -->
     <swiper-item>
       <scroll-view scroll-y class='all_container' bindscrolltoupper="reachTop" bindscrolltolower="reachBottm" lower-threshold="1">
@@ -61,7 +61,7 @@
     </swiper-item>
     <!-- 购物车 -->
     <swiper-item>
-      
+
       <view class='all_container_cart'>
         <block wx:for="{{listCart}}" wx:key="cart">
           <view class="view_item_cart">
@@ -84,10 +84,10 @@
             <image class='item_sign_cart_icon' wx:if="{{item.sign==2}}" src='../../images/off_the_shelf.png'></image>
           </view>
         </block>
-        <view style="height:150rpx"/>
+        <view style="height:150rpx" />
       </view>
 
-      
+
       <view class="view_cart_bottom">
         <view class="carts-radio">
           <icon wx:if="{{isAllChecked}}" type="success_circle" size="20" bindtap="bindAllCheckbox" data-id="{{item.id}}" />
@@ -100,7 +100,21 @@
         </view>
       </view>
     </swiper-item>
-
+    <swiper-item>
+      <!-- 我的 -->
+      <view class="all_container_cart">
+      <image src='../../images/my_top_bg.png' class='me_top_img' mode='scaleToFill'></image>
+        <view class="me_view_top">
+          <image src="{{userhead}}" class='userhead' />
+          <text style="color:white;font-size:34rpx;margin-top:20rpx">{{username}}</text>
+        </view>
+        <view class="view_me_line" style="margin-top:340rpx">
+          <text class="text_all_select">全部订单</text>
+          <image class='more' src='../../images/more.png'/>
+          <text class='check_all_orders' style="">查看全部订单</text> 
+        </view>
+      </view>
+    </swiper-item>
   </swiper>
   <view class="swiper-tab">
     <view class='swiper-tab-list' data-current="0" bindtap="swichNav">
@@ -110,9 +124,14 @@
     </view>
 
     <view class='swiper-tab-list' data-current="1" bindtap="swichNav">
-      <image class='icon' hidden='{{currentTab!=1?true:false}}' data-current="1" src='../../images/tab_food_shopping_sele.png'></image>
-      <image class='icon' hidden='{{currentTab==1?true:false}}' data-current="1" src='../../images/tab_food_shopping.png'></image>
+      <image class='icon' hidden='{{currentTab!=1?true:false}}' data-current="1" src='../../images/tab_shooping_cart_sele.png'></image>
+      <image class='icon' hidden='{{currentTab==1?true:false}}' data-current="1" src='../../images/tab_shooping_cart.png'></image>
       <text class="text_tab {{currentTab==1 ? 'on' : ''}}" data-current="1">菜篮子</text>
+    </view>
+    <view class='swiper-tab-list' data-current="2" bindtap="swichNav">
+      <image class='icon' hidden='{{currentTab!=2?true:false}}' data-current="2" src='../../images/tab_my_sele.png'></image>
+      <image class='icon' hidden='{{currentTab==2?true:false}}' data-current="2" src='../../images/tab_my.png'></image>
+      <text class="text_tab {{currentTab==2 ? 'on' : ''}}" data-current="2">我的</text>
     </view>
   </view>
 </view>
