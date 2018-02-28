@@ -18,7 +18,7 @@
         </view>
 
         <block wx:if="{{listRec.length!=0}}" wx:for="{{listRec}}" wx:key="rec">
-          <view class='item_rec_container' data-id="{{item.id}}" bindtap='clickRec'>
+          <view class='item_rec_container' data-id="{{item.id}}" data-type="rec" bindtap='clickToDetail'>
             <image class='item_rec_img' src='{{item.image}}'></image>
             <image class='item_rec_img_state' wx:if="{{item.sign==1}}" src='../../images/sell_out.png'></image>
             <image class='item_rec_img_state' wx:if="{{item.sign==2}}" src='../../images/off_the_shelf.png'></image>
@@ -30,10 +30,10 @@
         </view>
 
         <view wx:if="{{listHot.length!=0}}" class='hot_container'>
-          <block wx:for="{{listHot}}" wx:key="rec">
+          <block wx:for="{{listHot}}" wx:key="hot">
             <view class='hot_item_container'>
               <view class='line'></view>
-              <image class='hot_item_img' src='{{item.image}}' mode="widthFix"></image>
+              <image class='hot_item_img' bindtap='clickToDetail' data-type="hot" data-id='{{item.id}}' src='{{item.image}}' mode="widthFix"></image>
               <view class='hot_item_view_text'>
                 <text style='font-size:25rpx'>{{item.name}}</text>
                 <text style='font-size:15rpx'>已售{{item.saleAmount}}</text>
@@ -64,12 +64,12 @@
 
       <view class='all_container_cart'>
         <block wx:for="{{listCart}}" wx:key="cart">
-          <view class="view_item_cart">
+          <view class="view_item_cart" >
             <view class="carts-radio">
               <icon wx:if="{{item.isCheck}}" type="success_circle" size="20" bindtap="bindCheckbox" data-id="{{item.id}}" />
               <icon wx:else type="circle" size="20" bindtap="bindCheckbox" data-id="{{item.id}}" />
             </view>
-            <image src="{{item.image}}" class="item_cart_icon"></image>
+            <image src="{{item.image}}" class="item_cart_icon" bindtap='clickToDetail' data-type="cart" data-id='{{item.id}}'></image>
             <view class='ietm_view_cart_text'>
               <text style="font-size:30rpx">{{item.name}}</text>
               <text style='font-size:28rpx;color:#f83342'>{{item.price}}元</text>
@@ -102,16 +102,34 @@
     </swiper-item>
     <swiper-item>
       <!-- 我的 -->
-      <view class="all_container_cart">
-      <image src='../../images/my_top_bg.png' class='me_top_img' mode='scaleToFill'></image>
+      <view class="all_container_me">
+        <image src='../../images/my_top_bg.png' class='me_top_img' mode='scaleToFill'></image>
         <view class="me_view_top">
           <image src="{{userhead}}" class='userhead' />
           <text style="color:white;font-size:34rpx;margin-top:20rpx">{{username}}</text>
         </view>
         <view class="view_me_line" style="margin-top:340rpx">
           <text class="text_all_select">全部订单</text>
-          <image class='more' src='../../images/more.png'/>
-          <text class='check_all_orders' style="">查看全部订单</text> 
+          <image class='more' src='../../images/more.png' />
+          <text class='check_all_orders' style="">查看全部订单</text>
+        </view>
+        <view class="view_order_types">
+          <block wx:for='{{order_tyeps}}' wx:key='ordertypes'>
+            <view class='item_view_order_types' data-id='{{item.id}}'>
+              <image src="{{item.icon}}" class='item_image_order_types'></image>
+              <text class='item_text_order_types'>{{item.text}}</text>
+            </view>
+          </block>
+        </view>
+         <view class="view_me_line">
+          <image class='view_me_line_icon' src='../../images/lottery_recharge.png'></image>
+          <text class="text_all_select">菜票充值</text>
+          <image class='more' src='../../images/more.png' />
+        </view>
+          <view class="view_me_line">
+          <image class='view_me_line_icon' src='../../images/my_help_center.png'></image>
+          <text class="text_all_select">帮助中心</text>
+          <image class='more' src='../../images/more.png' />
         </view>
       </view>
     </swiper-item>

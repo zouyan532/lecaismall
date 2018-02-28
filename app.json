@@ -2,7 +2,8 @@
   "pages": [
     "pages/main/index",
     "pages/login/index",
-    "pages/register/index"
+    "pages/register/index",
+    "pages/detail/index"
   ],
   "window": {
     "navigationBarBackgroundColor": "#fff",

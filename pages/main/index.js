@@ -13,6 +13,7 @@ Page({
     scrollLeft: 0,
     ad: null,
     listRec: null,
+    listRecAll:null,
     listHot: null,
     limit: 6,
     offset: 0,
@@ -32,6 +33,26 @@ Page({
         id:1,
         text:"待付款",
         icon:"../../images/order_pending_payment.png"
+      },
+      {
+        id:2,
+        text:"待接单",
+        icon:"../../images/order_wai_list.png"
+      },
+      {
+        id:3,
+        text:"待配送",
+        icon:"../../images/order_distrib.png"
+      },
+      {
+        id:4,
+        text:"待收货",
+        icon:'../../images/order_receipt.png',
+      },
+      {
+        id:5,
+        text:"退款",
+        icon:"../../images/order_refund.png"
       }
     ]
   },
@@ -63,10 +84,10 @@ Page({
       })
     }
   },
-  onShow: function () {
-    // Do something when page show.
-    this.initLoadSback()
-  },
+  // onShow: function () {
+  //   // Do something when page show.
+  //   this.initLoadSnack()
+  // },
 
   initLoadSnack: function () {
     this.showLoading();
@@ -103,7 +124,8 @@ Page({
               array[i] = temp
             }
             this.setData({
-              listRec: array
+              listRec: array,
+              listRecAll:d.snacks
             })
             break
         }
@@ -307,9 +329,24 @@ Page({
         this.showToast("网络错误", false)
       })
   },
-  clickRec: function (e) {
+  clickToDetail: function (e) {
+    let id = e.currentTarget.dataset.id
+    let type = e.currentTarget.dataset.type
+    var snackId;
+    if(type==="rec"){
+      snackId = this.data.listRecAll[id].SnackId
+    }else if(type ==='hot'){
+      snackId = this.data.listHotAll[id].SnackId
+    }else{
+      snackId = this.data.listCartAll[id].SnackId
+    }
+    this.toDetailPage(snackId)
   },
-
+  toDetailPage:function(snackId){
+    wx.navigateTo({
+      url: '../detail/index?id='+snackId,
+    })
+  },
   showLoading() {
     this.setData({
       subtitle: '加载中...',
