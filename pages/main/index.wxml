@@ -64,7 +64,7 @@
 
       <view class='all_container_cart'>
         <block wx:for="{{listCart}}" wx:key="cart">
-          <view class="view_item_cart" >
+          <view class="view_item_cart">
             <view class="carts-radio">
               <icon wx:if="{{item.isCheck}}" type="success_circle" size="20" bindtap="bindCheckbox" data-id="{{item.id}}" />
               <icon wx:else type="circle" size="20" bindtap="bindCheckbox" data-id="{{item.id}}" />
@@ -85,20 +85,21 @@
           </view>
         </block>
         <view style="height:150rpx" />
+        <view class="view_cart_bottom">
+          <view class="carts-radio">
+            <icon wx:if="{{isAllChecked}}" type="success_circle" size="20" bindtap="bindAllCheckbox" data-id="{{item.id}}" />
+            <icon wx:else type="circle" size="20" bindtap="bindAllCheckbox" data-id="{{item.id}}" />
+          </view>
+          <text class='text_all_select'>全选</text>
+          <view class="view_cart_bottom_buy">
+            <text class="text_total">合计{{total}}元</text>
+            <text class="btn_buy" catchtap='click_commit'>结算</text>
+          </view>
+        </view>
       </view>
 
 
-      <view class="view_cart_bottom">
-        <view class="carts-radio">
-          <icon wx:if="{{isAllChecked}}" type="success_circle" size="20" bindtap="bindAllCheckbox" data-id="{{item.id}}" />
-          <icon wx:else type="circle" size="20" bindtap="bindAllCheckbox" data-id="{{item.id}}" />
-        </view>
-        <text class='text_all_select'>全选</text>
-        <view class="view_cart_bottom_buy">
-          <text class="text_total">合计{{total}}元</text>
-          <text class="btn_buy">结算</text>
-        </view>
-      </view>
+
     </swiper-item>
     <swiper-item>
       <!-- 我的 -->
@@ -108,7 +109,7 @@
           <image src="{{userhead}}" class='userhead' />
           <text style="color:white;font-size:34rpx;margin-top:20rpx">{{username}}</text>
         </view>
-        <view class="view_me_line" style="margin-top:340rpx">
+        <view class="view_me_line" style="margin-top:340rpx" bindtap='clickallorder'>
           <text class="text_all_select">全部订单</text>
           <image class='more' src='../../images/more.png' />
           <text class='check_all_orders' style="">查看全部订单</text>
@@ -121,12 +122,12 @@
             </view>
           </block>
         </view>
-         <view class="view_me_line">
+        <view class="view_me_line">
           <image class='view_me_line_icon' src='../../images/lottery_recharge.png'></image>
           <text class="text_all_select">菜票充值</text>
           <image class='more' src='../../images/more.png' />
         </view>
-          <view class="view_me_line">
+        <view class="view_me_line">
           <image class='view_me_line_icon' src='../../images/my_help_center.png'></image>
           <text class="text_all_select">帮助中心</text>
           <image class='more' src='../../images/more.png' />

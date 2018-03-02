@@ -9,7 +9,7 @@ Page({
     winWidth: 0,
     winHeight: 0,
     // tab切换
-    currentTab: 0,
+    currentTab: 2,
     scrollLeft: 0,
     ad: null,
     listRec: null,
@@ -74,9 +74,11 @@ Page({
     if (adCode !== null && adCode.length > 0) {
       this.initLoadSnack();
     } else {
+      var that = this;
       wx.chooseAddress({
         success: function (res) {
           wx.setStorageSync("adCode", "330281");
+          that.initLoadSnack();
         },
         fail: function (err) {
           console.log(JSON.stringify(err))
@@ -84,10 +86,6 @@ Page({
       })
     }
   },
-  // onShow: function () {
-  //   // Do something when page show.
-  //   this.initLoadSnack()
-  // },
 
   initLoadSnack: function () {
     this.showLoading();
@@ -294,9 +292,12 @@ Page({
             for (var i = 0; i < d.snacks.length; i++) {
               var bean = d.snacks[i]
               var image;
+              var icon
               bean.SnackImages.forEach(function (e) {
                 if (e.ImageType == 2) {
                   image = e.ImageUrl
+                }else if(e.ImageType==1){
+                  icon = e.ImageUrl
                 }
               });
               var sign = 0
@@ -312,7 +313,9 @@ Page({
                 price: bean.SnackCities[0].CityPrice.toFixed(2),
                 amount: bean.SnackCarts[0].Amount,
                 isCheck: false,
-                name: bean.SnackName
+                name: bean.SnackName,
+                snackId:bean.SnackId,
+                icon:icon
               }
               array[i] = temp
             }
@@ -321,6 +324,7 @@ Page({
               listCartAll: d.snacks
             })
             this.upDateTotal();
+            this.hideLoading()
             break
         }
       })
@@ -346,6 +350,10 @@ Page({
     wx.navigateTo({
       url: '../detail/index?id='+snackId,
     })
+  },
+  onShow: function () {
+    this.showLoading()
+    this.initLoadCart()
   },
   showLoading() {
     this.setData({
@@ -540,5 +548,16 @@ Page({
   bindIptCartNum(e) {
     let id = e.currentTarget.dataset.id
     this.changeGoodAmount(e.detail.value, id)
+  },
+  click_commit(e){
+    console.log("点击事件")
+    wx.navigateTo({
+      url: '../commitorder/index',
+    })
+  },
+  clickallorder(e) {
+    wx.navigateTo({
+      url: '../allorder/index',
+    })
   }
 })

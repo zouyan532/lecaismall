@@ -126,6 +126,14 @@ Page({
         this.showToast("网络错误", false)
       })
   },
+  clickCart:function(){
+    var pages = getCurrentPages()
+    var mainPage = pages[[pages.length-2]]
+    mainPage.setData({
+      currentTab:1
+    })
+    wx.navigateBack()
+  },
   showLoading() {
     this.setData({
       subtitle: '加载中...',

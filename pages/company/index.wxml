@@ -1,0 +1,14 @@
+<!--pages/company/index.wxml-->
+<view class='container_conpany'>
+  <view class='view_search'>
+    <input class='search_input' placeholder='请输入公司名称' bindconfirm='clickSaerch' ></input>
+  </view>
+  <view style="height:100rpx"></view>
+  <block wx:if="{{listCompany.length!=0}}" wx:for="{{listCompany}}" wx:key="listCompany">
+    <view class='item_cpmpany_view' bindtap='clickitem' data-index='{{index}}'>
+      <text class='normaltext'>{{item.CompanyLocationName}}</text>
+      <text class='normaltext' style='margin-top:20rpx'>{{item.DetailAddress}}</text>
+    </view>
+  </block>
+  <text wx:if="{{listCompany.length==0}}"  class='text_no_search'>无搜索结果~</text>
+</view>

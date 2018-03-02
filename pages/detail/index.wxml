@@ -20,6 +20,6 @@
   <text class="btn_add" bindtap='addtoCart' style="background-color:{{sign==0?'#f83342':'#77f83342'}}">加入菜篮子</text>
   <text class='text_addcarttimes'>该商品已加入菜篮子{{addCartTimes}}次</text>
 </view>
-<image hidden='{{addCartTimes>0}}' class="img_cart" src='../../images/shopping_cart_no_cart.png'></image>
-<image hidden='{{addCartTimes==0}}' class='img_cart' src='../../images/shopping_cart_add_cart.png'></image>
+<image hidden='{{addCartTimes>0}}' class="img_cart" src='../../images/shopping_cart_no_cart.png' bindtap="clickCart"></image>
+<image hidden='{{addCartTimes==0}}' class='img_cart' src='../../images/shopping_cart_add_cart.png' bindtap="clickCart"></image>
 <text hidden='{{addCartTimes==0}}' class="addCartTimesDot">{{addCartTimes}}</text>

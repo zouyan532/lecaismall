@@ -1,0 +1,63 @@
+<view class="container_commit">
+  <view class="view_select" bindtap='clickSelectCompany'>
+    <text class="normaltext" style="margin-left:50rpx;margin-top:20rpx">{{disName}}</text>
+    <view class="view_select_view">
+      <image src='../../images/recom_activ_location.png' class='icon'></image>
+      <text class='small_yellow_text'>{{disAddress}}</text>
+    </view>
+    <image class='more' src='../../images/more.png' />
+  </view>
+  <view class="view_select" bindtap='clickSelectTime'>
+    <text class="normaltext" style="margin-left:50rpx;margin-top:20rpx">{{time}}</text>
+    <view class="view_select_view">
+      <image src='../../images/recom_activ_location.png' class='icon'></image>
+      <text class='small_yellow_text'>(可预约收货时间)</text>
+    </view>
+    <image class='more' src='../../images/more.png' />
+  </view>
+
+  <block wx:for="{{listGood}}" wx:key="goods">
+    <view class='item_goods_view'>
+      <image class="item_goods_img" src='{{item.icon}}' />
+      <view class='item_goods_view_view'>
+        <text style='font-size:24rpx'>{{item.name}}</text>
+        <text style='font-size:24rpx'>￥{{item.price}}元</text>
+      </view>
+      <text class="item_goods_amount">x{{item.amount}}</text>
+    </view>
+  </block>
+
+  <view class="view_me_line">
+    <text class="normaltext">运费</text>
+    <text class='text_small'>{{shipping}}</text>
+  </view>
+
+  <view class="view_me_line">
+    <text class="normaltext">购买规则</text>
+    <text class='text_small' style='color:#666666'>商品进入待配送状态不允许退货</text>
+  </view>
+
+  <view class="view_me_line">
+    <text class="normaltext">可用积分{{displayScore}}积分抵￥{{displayScore/100}}元</text>
+    <switch checked="{{isUseScore}}" bindchange="switchChange" />
+  </view>
+  <view class="view_total">
+    <text class='normaltext' style="color:#f83342;margin-right:20rpx">￥{{displayTotal}}元</text>
+    <text class='normaltext'>合计:</text>
+    <text class='normaltext' style="margin-right:20rpx">共{{totalAmount}}商品</text>
+  </view>
+  <view class="view_me_line">
+    <text class="normaltext">支付方式</text>
+  </view>
+  <view class="item_goods_view">
+    <image src='../../images/orders_weixin.png' class='img_payway' ></image>
+    <text class='normaltext' style='margin-left:20rpx'>微信支付</text>
+    <icon type="success_circle" size="20" class='icon_payway' />
+  </view>
+  <view style='height:200rpx'></view>
+  <view class="bottom_view">
+    <text class="btn_commit">提交订单</text>
+    <text class='normaltext' style="color:#f83342;margin-right:20rpx">￥{{displayTotal}}元</text>
+    <text class='normaltext'>合计:</text>
+  </view>
+</view>

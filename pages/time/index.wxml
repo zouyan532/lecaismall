@@ -1,0 +1,20 @@
+<!--pages/time/index.wxml-->
+<view class='contaner_time'>
+  <view class='view_text'>选择日期</view>
+  <block wx:for="{{listAvaiable}}" wx:key="listAvaiable">
+    <view class="avaiable_item_view">
+      <icon wx:if="{{item.isCheck}}" type="success_circle" size="20" bindtap="bindCheckAvaiable" data-index="{{index}}" />
+      <icon wx:else type="circle" size="20" bindtap="bindCheckAvaiable" data-index="{{index}}" />
+      <text class='normaltext' style="margin-left:20rpx">{{item.display}}</text>
+    </view>
+  </block>
+  <view class='view_text'>选择时间</view>
+  <block wx:for="{{listPeriod}}" wx:key="listPeriod">
+    <view class="avaiable_item_view">
+      <icon wx:if="{{item.isCheck}}" type="success_circle" size="20" bindtap="bindCheckPeriod" data-index="{{index}}" />
+      <icon wx:else type="circle" size="20" bindtap="bindCheckPeriod" data-index="{{index}}" />
+      <text class='normaltext' style="margin-left:20rpx">{{item.display}}</text>
+    </view>
+  </block>
+
+</view>

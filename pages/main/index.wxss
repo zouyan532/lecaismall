@@ -9,7 +9,7 @@
 
 .all_container_cart {
   height: 100%;
-  width: 100%;
+  width: 1020rpx;
   position: absolute;
   background-color: #f9f9f9;
   overflow: scroll;
@@ -26,7 +26,6 @@
   background-color: white;
   height: 100rpx;
 }
-
 .swiper-tab-list {
   display: flex;
   width: 33.3%;
@@ -165,14 +164,6 @@
 .btn_addtocart {
   font-size: 20rpx;
 }
-
-.tips {
-  font-size: 28rpx;
-  text-align: center;
-  padding: 50rpx;
-  color: #ccc;
-}
-
 .view_item_cart {
   display: flex;
   flex-direction: row;
