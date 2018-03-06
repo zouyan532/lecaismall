@@ -39,7 +39,22 @@ function fetchApiWithToken(type, params, method) {
 
   })
 }
-
+function fetchCityByAdcode(adcode) {
+  return new Promise((resolve, reject) => {
+    wx.request({
+      url: "http://restapi.amap.com/v3/place/text",
+      data: {
+        city: adcode,
+        offset: 5,
+        page: 1,
+        key: "833b15cf1d6534b42867ddbb11be8eea"
+      },
+      success: resolve,
+      method: "GET",
+      fail: reject
+    })
+  })
+}
 
 
 module.exports = {
@@ -51,4 +66,8 @@ module.exports = {
     return fetchApiWithToken(type, params, method)
       .then(res => res.data)
   },
+  getCityByAdcode(adcode) {
+    return fetchCityByAdcode(adcode)
+      .then(res => res.data)
+  }
 }

@@ -1,6 +1,6 @@
 <view class='container_allorder'>
   <block wx:for="{{listDisplay}}" wx:key="listorders">
-    <view class='item_orders_view'>
+    <view class='item_orders_view' bindtap='clicktoDetail' data-id='{{item.orderId}}'>
       <view class='item_order_view_top'>
         <text class='text28' style='color:#666666;margin-left:20rpx'>{{item.toptext}}</text>
         <text class='text24' style='color:#666666' wx:if="{{item.status==0}}">(未支付订单,超过20分钟将自动关闭)</text>

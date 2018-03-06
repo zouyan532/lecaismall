@@ -22,7 +22,7 @@ Page({
     if (isRefresh) {
       this.setData({
         offset: 0,
-        hasMore:true
+        hasMore: true
       })
     }
     baseRequest.findWhithToken("v1/order/userOrders", {
@@ -31,7 +31,6 @@ Page({
       offset: this.data.offset
     }, "GET")
       .then(c => {
-        console.log(c)
         if (c.orders.length == this.data.limit) {
           this.setData({
             offset: this.data.offset + this.data.limit
@@ -54,7 +53,6 @@ Page({
             e.FoodOrders.forEach(v => {
               count = count + v.Amount
               var amount = v.Amount
-              console.log(amount)
               var name = v.Food.FoodName
               var price = v.Price
               var img;
@@ -175,7 +173,8 @@ Page({
             left_button_text: left_button_text,
             right_button_text: right_button_text,
             list: list,
-            toptext: toptext
+            toptext: toptext,
+            orderId: e.Id
           })
         })
         this.setData({
@@ -209,6 +208,12 @@ Page({
       icon: isSuccess ? 'succes' : 'none',
       duration: 1000,
       mask: true
+    })
+  },
+  clicktoDetail: function (e) {
+    var orderId = e.currentTarget.dataset.id
+    wx.navigateTo({
+      url: '../orderdetail/index?orderId='+orderId,
     })
   }
 })
