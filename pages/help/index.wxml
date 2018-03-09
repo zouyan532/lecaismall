@@ -1,0 +1,2 @@
+<!--pages/help/index.wxml-->
+<web-view src="http://www.lc-it.com/lecaiH5/appHelp.html"></web-view>

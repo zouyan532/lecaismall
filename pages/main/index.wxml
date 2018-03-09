@@ -97,10 +97,10 @@
           </view>
         </view>
       </view>
-
-
-
     </swiper-item>
+
+
+
     <swiper-item>
       <!-- 我的 -->
       <view class="all_container_me">
@@ -116,18 +116,18 @@
         </view>
         <view class="view_order_types">
           <block wx:for='{{order_tyeps}}' wx:key='ordertypes'>
-            <view class='item_view_order_types' data-id='{{item.id}}'>
+            <view class='item_view_order_types' data-index='{{index}}' bindtap="clickOrderTypes">
               <image src="{{item.icon}}" class='item_image_order_types'></image>
               <text class='item_text_order_types'>{{item.text}}</text>
             </view>
           </block>
         </view>
-        <view class="view_me_line">
+        <view class="view_me_line" bindtap="toScoreCharge">
           <image class='view_me_line_icon' src='../../images/lottery_recharge.png'></image>
           <text class="text_all_select">菜票充值</text>
           <image class='more' src='../../images/more.png' />
         </view>
-        <view class="view_me_line">
+        <view class="view_me_line" bindtap="toHelpCenter">
           <image class='view_me_line_icon' src='../../images/my_help_center.png'></image>
           <text class="text_all_select">帮助中心</text>
           <image class='more' src='../../images/more.png' />

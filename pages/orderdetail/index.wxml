@@ -1,33 +1,33 @@
 <!--pages/orderdetail/index.wxml-->
 <view class='container_order_detail'>
-   <view class='view_step'>
-    <image class='reddot' wx:if="{{step!=0}}" src='../../images/order_detail_red_dot.png'></image>
-    <image class='hook' wx:if="{{step==0}}" src='../../images/order_detail_sus_dot.png'></image>
-    <view class='step_red_line' wx:if="{{step!=0}}"></view>
-    <view class='step_gray_line' wx:if="{{step==0}}"></view>
+    <view class='view_step'>
+        <image class='reddot' wx:if="{{step!=0}}" src='../../images/order_detail_red_dot.png'></image>
+        <image class='hook' wx:if="{{step==0}}" src='../../images/order_detail_sus_dot.png'></image>
+        <view class='step_red_line' wx:if="{{step!=0}}"></view>
+        <view class='step_gray_line' wx:if="{{step==0}}"></view>
 
-    <image class='graydot' wx:if="{{step<1}}" src='../../images/order_detail_gray_dot.png'></image>
-    <image class='reddot' wx:if="{{step>1}}" src='../../images/order_detail_red_dot.png'></image>
-    <image class='hook' wx:if="{{step==1}}" src='../../images/order_detail_sus_dot.png'></image>
-    <view class='step_red_line' wx:if="{{step>1}}"></view>
-    <view class='step_gray_line' wx:if="{{step<2}}"></view>
+        <image class='graydot' wx:if="{{step<1}}" src='../../images/order_detail_gray_dot.png'></image>
+        <image class='reddot' wx:if="{{step>1}}" src='../../images/order_detail_red_dot.png'></image>
+        <image class='hook' wx:if="{{step==1}}" src='../../images/order_detail_sus_dot.png'></image>
+        <view class='step_red_line' wx:if="{{step>1}}"></view>
+        <view class='step_gray_line' wx:if="{{step<2}}"></view>
 
-    <image class='graydot' wx:if="{{step<2}}" src='../../images/order_detail_gray_dot.png'></image>
-   <image class='reddot' wx:if="{{step>2}}" src='../../images/order_detail_red_dot.png'></image>
-    <image class='hook' wx:if="{{step==2}}" src='../../images/order_detail_sus_dot.png'></image>
-    <view class='step_red_line' wx:if="{{step>2}}"></view>
-    <view class='step_gray_line' wx:if="{{step<3}}"></view>
+        <image class='graydot' wx:if="{{step<2}}" src='../../images/order_detail_gray_dot.png'></image>
+        <image class='reddot' wx:if="{{step>2}}" src='../../images/order_detail_red_dot.png'></image>
+        <image class='hook' wx:if="{{step==2}}" src='../../images/order_detail_sus_dot.png'></image>
+        <view class='step_red_line' wx:if="{{step>2}}"></view>
+        <view class='step_gray_line' wx:if="{{step<3}}"></view>
 
-    <image class='graydot' wx:if="{{step!=3}}" src='../../images/order_detail_gray_dot.png'></image>
-    <image class='hook' wx:if="{{step==3}}" src='../../images/order_detail_sus_dot.png'></image>
-  </view>
+        <image class='graydot' wx:if="{{step!=3}}" src='../../images/order_detail_gray_dot.png'></image>
+        <image class='hook' wx:if="{{step==3}}" src='../../images/order_detail_sus_dot.png'></image>
+    </view>
     <view class="view_address">
         <text style="font-size: 32rpx">{{addressType}}</text>
         <text style="font-size: 28rpx" space="true">{{username}}</text>
         <text style="font-size: 26rpx">{{address}}</text>
     </view>
     <view class='item_order_view_top'>
-        <text class='text26' style='margin-left:30rpx'>商品信息</text>
+        <text class='text26' style='margin-left:20rpx'>商品信息</text>
         <text class='text24' style='margin-left:20rpx'>(未支付订单，超过20分钟将自动关闭)</text>
     </view>
     <block wx:for="{{goodList}}" wx:key="goodList">
@@ -39,32 +39,40 @@
             </view>
         </view>
     </block>
-    <view class='view_box' style=" border-bottom: 1rpx solid #eeeeee">
-        <text class='text28' >商品备注</text>
-        <text class='text24' >该商品来自{{fromType}}</text>
+    <view class='view_box' style=" border-bottom: 1rpx solid #f9f9f9">
+        <text class='text28'>商品备注</text>
+        <text class='text24'>该商品来自{{fromType}}</text>
     </view>
     <view class='view_box'>
-        <text class='text24' >运费</text>
-        <text class='text24' >￥+{{order.ShipFee}}</text>
+        <text class='text24'>运费</text>
+        <text class='text24'>￥+{{order.ShipFee}}</text>
     </view>
     <view class='view_box'>
-        <text class='text24' >优惠</text>
-        <text class='text24' >¥+0.00</text>
+        <text class='text24'>优惠</text>
+        <text class='text24'>¥+0.00</text>
     </view>
-    <view class='view_box' style=" border-bottom: 1rpx solid #eeeeee">
-        <text class='text24' >菜票</text>
-        <text class='text24' >￥+{{useScore}}</text>
+    <view class='view_box' style=" border-bottom: 1rpx solid #f9f9f9">
+        <text class='text24'>菜票</text>
+        <text class='text24'>￥{{useScore==0?"+"+useScore:useScore}}</text>
     </view>
-    <view class='view_box'style=" border-bottom: 10rpx solid #eeeeee">
-        <text class='text28' >实付金额</text>
-        <text class='text28' style="color: #F83342" >￥{{order.Price}}</text>
-    </view>
-
-    <view class="item_order_view_top">
-        <view class='text26' style="color: white;background-color: #f83342" >{{backScore>0?退菜票:送菜票}}</view>
-        <view class="text24" >{{backScore>0?退还彩票：:订单完成送菜票：}}</view>
-        <view class="text24" style="color:#f83342">{{backScore}}</view>
-        <view v-cloak="text24">菜票</view>
+    <view class='view_box' style=" border-bottom: 10rpx solid #f9f9f9">
+        <text class='text28'>实付金额</text>
+        <text class='text28' style="color: #F83342">￥{{order.Price}}</text>
     </view>
 
-  </view>
+    <view class="item_order_view_top" style="border-bottom: 10rpx solid #f9f9f9;">
+        <view class='text26' style="color: white;background-color: #f83342;padding: 5rpx;border-radius: 10rpx">
+            {{backScore>0?"退菜票":"送菜票"}}
+        </view>
+        <view class="text24" style="margin-left: 20rpx">{{backScore>0?"退还彩票":"订单完成送菜票"}}</view>
+        <view class="text24" style="color:#f83342">{{backScore>0?backScore:getScore}}</view>
+        <view class="text24">菜票</view>
+    </view>
+    <block wx:for="{{bottomList}}" wx:key="bottomList">
+        <view class="item_bottom_view">
+            <view class="text24">{{item.key}}</view>
+            <view class="text24">{{item.value}}</view>
+        </view>
+    </block>
+    <view style="height: 30rpx;width: 100%;background-color: #f9f9f9"></view>
+</view>

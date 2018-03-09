@@ -2,20 +2,20 @@
 <view class='container'>
   <view class='grayborder'>
     <image class="icon" src="../../images/reg_phone.png"></image>
-    <input class='input' placeholder='手机号码' bindinput='accountInput'></input>
+    <input class='input' placeholder='手机号码' bindinput='accountInput'  style="font-size: 28rpx"></input>
   </view>
   <view class='grayborder' style='margin-top:20rpx'>
     <image class="icon" src="../../images/reg_phone_ver_code.png"></image>
-    <input class='input' placeholder='验证码' bindinput='verInput'></input>
+    <input class='input' placeholder='验证码' bindinput='verInput'  style="font-size: 28rpx"></input>
     <button class="btn_vcode" style='color: white;background-color: red' bindtap='clickGetVCode'>验证码</button>
   </view>
   <view class='grayborder' style='margin-top:20rpx'>
     <image class="icon" src="../../images/reg_pw.png"></image>
-    <input class='input' placeholder='请输入密码' bindinput='passwordInput' password='true'></input>
+    <input class='input' placeholder='请输入密码' bindinput='passwordInput' password='true'  style="font-size: 28rpx"></input>
   </view>
   <view class='grayborder' style='margin-top:20rpx'>
     <image class="icon" src="../../images/reg_phone.png"></image>
-    <input class='input' placeholder='请再次输入密码' bindinput='repasswordInput' password='true'></input>
+    <input class='input' placeholder='请再次输入密码' bindinput='repasswordInput' password='true'  style="font-size: 28rpx"></input>
   </view>
   <button type='default' class='btn' style='color: white;background-color: red' bindtap='register'>确认</button>
   <view class='view_agree' wx:if='{{isRegister}}'>

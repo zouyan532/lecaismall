@@ -1,5 +1,6 @@
 // pages/orderdetail/index.js
 const baseRequest = require('../../libraries/baseRequest.js');
+const utils = require('../../utils/util.js')
 Page({
 
     /**
@@ -16,9 +17,10 @@ Page({
         username: null,
         address: null,
         isGetScore: true,
-        getScore:0,
-        useScore:0,
-        backScore:0
+        getScore: 0,
+        useScore: 0,
+        backScore: 0,
+        bottomList:[]
     },
 
     /**
@@ -33,6 +35,7 @@ Page({
             orderId: orderId
         }, "GET")
             .then(d => {
+
                 console.log(d)
                 var order = d.order
                 var addressType
@@ -42,11 +45,26 @@ Page({
                 var adCode
                 var district
                 var username
+                var bottomList = new Array()
+                bottomList.push({
+                    key:"订单编号:",
+                    value:order.Id
+                })
                 if (order.Type == 2) {
-                    adCode = order.OrderPickupLocation.PickupLocation.AdCode
-                    district = order.OrderPickupLocation.PickupLocation.DetailAddress
-                    username = order.OrderPickupLocation.Consignee + order.OrderPickupLocation.Contact
+
+                    adCode = order.DistributionType==1?order.OrderPickupLocation.PickupLocation.AdCode:order.OrderUserAddress.AdCode
+                    district = order.DistributionType==1?order.OrderPickupLocation.PickupLocation.DetailAddress:order.OrderUserAddress.DetailAddress
+                    username = order.DistributionType==1?order.OrderPickupLocation.Consignee + order.OrderPickupLocation.Contact
+                        :order.OrderUserAddress.Consignee + order.OrderUserAddress.Contact
                     console.log(adCode)
+                    var orderBookDates = order.OrderBookDates[0]
+                    bottomList.push({
+                        key:"预约时间:",
+                        value: utils.getYMD(orderBookDates.Date)+" "
+                        +(orderBookDates.Period==="DINNER"?"晚餐":"午餐") +" "
+                        +utils.timeSlice(orderBookDates.StartTime)+"-"
+                        +utils.timeSlice(orderBookDates.EndTime)
+                    })
                     fromType = "集市"
                     if (order.DistributionType == 2) {
                         addressType = "自提信息"
@@ -56,6 +74,7 @@ Page({
                         var price = e.Price
                         var name = e.Food.FoodName
                         var img
+                        var goodId = e.FoodId
                         e.Food.FoodImages.forEach(i => {
                             if (i.ImageType == 2) {
                                 img = i.ImageUrl
@@ -66,10 +85,19 @@ Page({
                             price: price,
                             name: name,
                             img: img,
+                            goodId:goodId
                         })
                     })
 
                 } else if (order.Type == 3) {
+                    var orderBookDates = order.OrderBookDates[0]
+                    bottomList.push({
+                        key:"预约时间:",
+                        value: utils.getYMD(orderBookDates.Date)+" "
+                        +(orderBookDates.Period==="DINNER"?"晚餐":"午餐") +" "
+                        +utils.timeSlice(orderBookDates.StartTime)+"-"
+                        +utils.timeSlice(orderBookDates.EndTime)
+                    })
                     district = order.OrderUserAddress.DetailAddress
                     username = order.OrderUserAddress.Consignee + " " + order.OrderUserAddress.Contact
                     fromType = "珍货铺"
@@ -80,6 +108,7 @@ Page({
                         var price = e.Price
                         var name = e.Material.MaterialName
                         var img = null
+                        var goodId = e.e.MaterialId
                         e.Material.MaterialImages.forEach(i => {
                             if (i.ImageType == 2) {
                                 img = i.ImageUrl
@@ -89,10 +118,19 @@ Page({
                             amount: amount,
                             price: price,
                             name: name,
-                            img: img,
+                            goodId:goodId,
+                            img: img
                         })
                     })
                 } else if (order.Type == 4) {
+                    var orderBookDates = order.SnackOrderBookDates[0]
+                    bottomList.push({
+                        key:"预约时间:",
+                        value: utils.getYMD(orderBookDates.Date)+" "
+                        +(orderBookDates.Period==="DINNER"?"晚餐":"午餐") +" "
+                        +utils.timeSlice(orderBookDates.StartTime)+"-"
+                        +utils.timeSlice(orderBookDates.EndTime)
+                    })
                     district = order.OrderCompanyLocation.CompanyLocation.DetailAddress
                     username = order.OrderCompanyLocation.CompanyLocation.CompanyLocationName + " " + order.OrderCompanyLocation.CompanyLocation.Contact
                     fromType = "武餐店"
@@ -104,6 +142,7 @@ Page({
                         var price = e.Price
                         var name = e.Snack.SnackName
                         var img
+                        var goodId = e.SnackId
                         e.Snack.SnackImages.forEach(i => {
                             if (i.ImageType == 2) {
                                 img = i.ImageUrl
@@ -114,13 +153,21 @@ Page({
                             price: price,
                             name: name,
                             img: img,
+                            goodId:goodId
                         })
                     })
                 } else if (order.Type == 5) {
                     adCode = order.OrderPickupLocation.PickupLocation.AdCode
                     district = order.OrderPickupLocation.PickupLocation.DetailAddress
                     username = order.OrderPickupLocation.Consignee + " " + order.OrderPickupLocation.Contact
-                    console.log(adCode)
+                    var orderBookDates = order.HotpotOrderBookDates[0]
+                    bottomList.push({
+                        key:"预约时间:",
+                        value: utils.getYMD(orderBookDates.Date)+" "
+                        +(orderBookDates.Period==="DINNER"?"晚餐":"午餐") +" "
+                        +utils.timeSlice(orderBookDates.StartTime)+"-"
+                        +utils.timeSlice(orderBookDates.EndTime)
+                    })
                     fromType = "火锅城"
                     if (order.DistributionType == 2) {
                         addressType = "自提信息"
@@ -130,6 +177,7 @@ Page({
                         var price = e.Price
                         var name = e.Hotpot.HotpotName
                         var img
+                        var goodId = e.HotpotId
                         e.Hotpot.HotpotImages.forEach(i => {
                             if (i.ImageType == 2) {
                                 img = i.ImageUrl
@@ -140,6 +188,7 @@ Page({
                             price: price,
                             name: name,
                             img: img,
+                            goodId: goodId
                         })
                     })
                 }
@@ -213,34 +262,38 @@ Page({
                         }
                     }
                 })
-            }
-
-        this.setData({
-            order: order,
-            addressType: addressType ? addressType : this.data.addressType,
-            goodList: goodList,
-            fromType: fromType,
-            step: step,
-            username: username,
-            states: order.Status > 0 ? ["已下单", "已支付", "已发货", "已完成"] : ["已下单", "已支付", "已取消", "已退款"],
-            getScore:getScore,
-            useScore:useScore,
-            backScore:backScore
+                this.setData({
+                    order: order,
+                    addressType: addressType ? addressType : this.data.addressType,
+                    goodList: goodList,
+                    fromType: fromType,
+                    step: step,
+                    username: username,
+                    states: order.Status > 0 ? ["已下单", "已支付", "已发货", "已完成"] : ["已下单", "已支付", "已取消", "已退款"],
+                    getScore: getScore,
+                    useScore: useScore,
+                    backScore: backScore,
+                    bottomList:bottomList
+                })
+                return null
+            })
+            .catch(e => {
+                console.log(e)
+                this.showToast("网路错误", false)
+            })
+    },
+    showToast(msg, isSuccess) {
+        wx.showToast({
+            title: msg,
+            icon: isSuccess ? 'succes' : 'none',
+            duration: 1000,
+            mask: true
         })
-        return null
-    })
-    .catch(e => {
-        console.log(e)
-        this.showToast("网路错误", false)
-    })
-},
-showToast(msg, isSuccess)
-{
-    wx.showToast({
-        title: msg,
-        icon: isSuccess ? 'succes' : 'none',
-        duration: 1000,
-        mask: true
-    })
-}
+    },
+    clickToDetail:function (e) {
+        var id = e.currentTarget.dataset.id
+        wx.navigateTo({
+            url:"../detail/index?id="+this.data.goodList[id].goodId
+        })
+    }
 })

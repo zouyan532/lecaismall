@@ -80,6 +80,14 @@
     justify-content: space-between;
     width: 95%;
 }
+.item_bottom_view{
+    display: flex;
+    flex-direction: row;
+    height: 60rpx;
+    justify-content: flex-start;
+    width: 100%;
+    padding-left: 30rpx;
+}
 
 .view_item_good {
     display: flex;

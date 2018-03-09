@@ -1,0 +1,14 @@
+<loading hidden="{{!loading}}">加载中...</loading>
+<view class='container'>
+    <view class='grayborder'>
+        <image class="icon" src="../../images/reg_phone.png"></image>
+        <input class='input' placeholder='请输入充值账号' bindinput='cardIdInput'  style="font-size: 28rpx"></input>
+    </view>
+    <view class='grayborder' style='margin-top:20rpx'>
+        <image class="icon" src="../../images/reg_phone_ver_code.png"></image>
+        <input class='input' placeholder='请输入充值密码' bindinput='passwordInput' style="font-size: 28rpx"></input>
+    </view>
+
+    <button type='default' class='btn' style='color: white;background-color: red' bindtap='clickCharge'>充值</button>
+
+</view>

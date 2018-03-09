@@ -1,14 +1,17 @@
 {
   "pages": [
+    "pages/main/index",
+    "pages/myorder/index",
     "pages/allorder/index",
     "pages/login/index",
-    "pages/main/index",
     "pages/register/index",
     "pages/detail/index",
     "pages/commitorder/index",
     "pages/company/index",
     "pages/time/index",
-    "pages/orderdetail/index"
+    "pages/orderdetail/index",
+    "pages/scorecharge/index",
+    "pages/help/index"
   ],
   "window": {
     "navigationBarBackgroundColor": "#fff",
